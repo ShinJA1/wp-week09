@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: x-large;
+  }
+
+  div {         
+    margin: 50px auto;    
+}       
+
+#form {
+    padding: 10px 10px;
+}
+.searcha {
+    width: 450px;
+    text-align: center;
+    padding: 0px 50px;;
+}
+
+
+ul.address-list li{
+    list-style: none;
+    border-bottom: 1px solid #bbbaba;
+    padding-top: 5px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: left;
+    font-size: large;
+    background-color: rgb(255, 247, 238);
+}
+
+.paging { text-align: center;}
+.paging li {display: inline-block; vertical-align: middle;}
+

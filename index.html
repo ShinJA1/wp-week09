@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>주소 API 실습</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="searcha">
+        <h1>주소 검색</h1>
+        <form id="form">
+            <input type="text" name="keyword" id="keyword" placeholder="검색어 입력">
+            <button type="submit">검색</button> <br>
+            <!-- <button type="button" id="btn2">2</button> -->
+        </form>
+        <ul class="address-list" id="address-list"></ul>
+        <ol class="paging">
+            <li id="btn1"><a href="#">[1]</a></li>
+            <li id="btn2"><a href="#">[2]</a></li>
+            <li id="btn3"><a href="#">[3]</a></li>
+        </ol>
+    </div>
+    <script>
+        const API_URL = "https://www.juso.go.kr/addrlink/addrLinkApiJsonp.do";
+        const API_KEY = 'devU01TX0FVVEgyMDIwMTIwMjIyNTI0NzExMDQ5NDI=';
+        const form = document.querySelector('#form');
+        const reset = document.getElementById("keyword");
+        //const btn2 = document.getElementById("btn2");
+        const btn1 = document.getElementById("btn1");
+        const btn2 = document.getElementById("btn2");
+        const btn3 = document.getElementById("btn3");
+        const addressList = document.querySelector('#address-list');
+        const paging = document.querySelector('#paging');
+
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
+            const keyword = encodeURIComponent(form.keyword.value);
+            try {
+                const response = await search(keyword);
+                const txt = await response.text();
+                console.log(txt);
+                const results = JSON.parse(txt.replace(/^\(/, '').replace(/\)$/, '')).results;
+                //console.log(results);
+                display(results);
+                
+                // const response1 = await search2(keyword);
+                // const txt1 = await response1.text();
+                // const results1 = JSON.parse(txt.replace(/^\(/, '').replace(/\)$/, '')).results;
+                // if(form.addEventListener('2', e)){
+                //     display(results1);
+                // }
+                //form.reset();
+            } catch (e) {
+                console.error(e);
+            }
+        });
+
+
+        reset.addEventListener("click", async e => {
+            e.preventDefault();
+            const keyword = encodeURIComponent(form.keyword.value);
+            try {
+                form.reset();
+            } catch (e) {
+                console.error(e);
+            }
+        });
+
+
+        btn2.addEventListener("click", async f => {
+            f.preventDefault();
+            const keyword = encodeURIComponent(form.keyword.value);
+            try {
+                const response = await search2(keyword);
+                const txt = await response.text();
+                console.log(txt);
+                const results = JSON.parse(txt.replace(/^\(/, '').replace(/\)$/, '')).results;
+                //console.log(results);
+                display(results);
+              
+                //form.reset();
+            } catch (f) {
+                console.error(f);
+            }
+        });
+
+        btn1.addEventListener("click", async f => {
+            f.preventDefault();
+            const keyword = encodeURIComponent(form.keyword.value);
+            try {
+                const response = await search(keyword);
+                const txt = await response.text();
+                console.log(txt);
+                const results = JSON.parse(txt.replace(/^\(/, '').replace(/\)$/, '')).results;
+                //console.log(results);
+                display(results);
+              
+                //form.reset();
+            } catch (f) {
+                console.error(f);
+            }
+        });
+
+        btn3.addEventListener("click", async f => {
+            f.preventDefault();
+            const keyword = encodeURIComponent(form.keyword.value);
+            try {
+                const response = await search3(keyword);
+                const txt = await response.text();
+                console.log(txt);
+                const results = JSON.parse(txt.replace(/^\(/, '').replace(/\)$/, '')).results;
+                //console.log(results);
+                display(results);
+              
+                //form.reset();
+            } catch (f) {
+                console.error(f);
+            }
+        });
+
+        // form.addEventListener('2', e => {
+        //     e.preventDefault();
+        //     const keyword = encodeURIComponent(form.keyword.value);
+        //     search2(keyword)
+        //         .then(res => res.text())
+        //         .then(txt => JSON.parse(txt.replace(/^\(/, '').replace(/\)$/, '')).results)
+        //         .then(display)
+        //         .then(() => form.reset())
+        //         .catch(console.error);
+
+        // });
+
+        function search(keyword, currentPage = 1, countPerPage = 10,) {
+            const data = {
+                confmKey: API_KEY,
+                keyword,
+                currentPage,
+                countPerPage,
+                resultType: 'json',
+            };
+
+            const body = Object.keys(data).map(key => `${key}=${data[key]}`).join('&');
+
+            const options = {
+                method: 'POST',
+                body,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                }
+            };
+
+            return fetch(API_URL, options);
+        }
+
+        function search2(keyword, currentPage = 1, countPerPage = 10,) {
+            const data = {
+                confmKey: API_KEY,
+                keyword,
+                currentPage: 2,
+                countPerPage,
+                resultType: 'json'
+            };
+
+            const body = Object.keys(data).map(key => `${key}=${data[key]}`).join('&');
+
+            const options = {
+                method: 'POST',
+                body,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                }
+            };
+
+            return fetch(API_URL, options);
+        }
+
+        function search3(keyword, currentPage = 1, countPerPage = 10,) {
+            const data = {
+                confmKey: API_KEY,
+                keyword,
+                currentPage: 3,
+                countPerPage,
+                resultType: 'json'
+            };
+
+            const body = Object.keys(data).map(key => `${key}=${data[key]}`).join('&');
+
+            const options = {
+                method: 'POST',
+                body,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                }
+            };
+
+            return fetch(API_URL, options);
+        }
+
+
+        function display(results) {
+            addressList.innerHTML = '';
+            results.juso.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `${item.zipNo}) ${item.roadAddr}`;
+                addressList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+
+</html>
